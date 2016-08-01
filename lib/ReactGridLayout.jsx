@@ -1,6 +1,6 @@
 // @flow
 import React, {PropTypes} from 'react';
-import isEqual from 'lodash.isequal';
+// import isEqual from 'lodash.isequal';
 import {autoBindHandlers, bottom, cloneLayoutItem, compact, getLayoutItem, moveElement,
   synchronizeLayoutWithChildren, validateLayout} from './utils';
 import GridItem from './GridItem';
@@ -168,7 +168,7 @@ export default class ReactGridLayout extends React.Component {
   componentWillReceiveProps(nextProps: typeof ReactGridLayout.prototype.props) {
     let newLayoutBase;
     // Allow parent to set layout directly.
-    if (!isEqual(nextProps.layout, this.props.layout)) {
+    if (nextProps.layout !== this.props.layout) {
       newLayoutBase = nextProps.layout;
     }
 
@@ -327,7 +327,7 @@ export default class ReactGridLayout extends React.Component {
   placeholder(): ?React.Element<any> {
     const {activeDrag} = this.state;
     if (!activeDrag) return null;
-    const {width, cols, margin, rowHeight, maxRows, useCSSTransforms} = this.props;
+    const {placeholder, width, cols, margin, rowHeight, maxRows, useCSSTransforms} = this.props;
 
     // {...this.state.activeDrag} is pretty slow, actually
     return (
@@ -346,7 +346,9 @@ export default class ReactGridLayout extends React.Component {
         isDraggable={false}
         isResizable={false}
         useCSSTransforms={useCSSTransforms}>
-        <div />
+          <div>
+            { (placeholder && placeholder(activeDrag.i)) }
+          </div>
       </GridItem>
     );
   }
