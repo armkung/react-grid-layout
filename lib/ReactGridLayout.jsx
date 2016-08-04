@@ -102,6 +102,8 @@ export default class ReactGridLayout extends React.Component {
     onResize: PropTypes.func,
     // Calls when resize is complete.
     onResizeStop: PropTypes.func,
+    
+    onInit: PropTypes.func,
 
     //
     // Other validations
@@ -135,6 +137,7 @@ export default class ReactGridLayout extends React.Component {
     isResizable: true,
     useCSSTransforms: true,
     verticalCompact: true,
+    onInit: noop,
     onLayoutChange: noop,
     onDragStart: noop,
     onDrag: noop,
@@ -162,7 +165,7 @@ export default class ReactGridLayout extends React.Component {
     this.setState({mounted: true});
     // Call back with layout on mount. This should be done after correcting the layout width
     // to ensure we don't rerender with the wrong width.
-    this.props.onLayoutChange(this.state.layout);
+    this.props.onInit(this.state.layout);
   }
 
   componentWillReceiveProps(nextProps: typeof ReactGridLayout.prototype.props) {
